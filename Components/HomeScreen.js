@@ -1,6 +1,5 @@
 import React, {useRef, useMemo, useState, useEffect} from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView  } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BottomSheetModal,BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import { getMarketData } from '../Services/service';
 import ListItem from './ListItem';
@@ -8,26 +7,10 @@ import Chart from './Chart';
 import ListHeader from './ListHeader';
 
 function HomeScreen() {
-  const [userName, setUserName] = useState('');
   const [data, setData] = useState([]);
   const [selectedCoinData, setSelectedCoinData] = useState(null);
 
-  const getUser = async () => {
-    try {
-      const value = await AsyncStorage.getItem('username');
-      if (value !== null) {
-        setUserName(value)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  };
-
-  // get user informtion from local storage
-  useEffect(() => {
-    getUser();
-  }, [])
-
+  
   // get crypto datda from api
   useEffect(() => {
     const fetchMarketData = async () => {
@@ -38,7 +21,6 @@ function HomeScreen() {
   }, [])
 
   const bottomSheetModalRef = useRef(null);
-
   const snapPoints = useMemo(() => ['50%'], []);
 
   const openModal = (item) => {
@@ -46,11 +28,9 @@ function HomeScreen() {
     bottomSheetModalRef.current?.present();
   }
 
-
   return (
     <BottomSheetModalProvider>
       <SafeAreaView style={styles.container}>
-        <Text>Welcome {userName}!</Text>
         <FlatList
         keyExtractor={(item) => item.id}
         data={data}
@@ -58,9 +38,8 @@ function HomeScreen() {
           <ListItem
             name={item.name}
             symbol={item.symbol}
-            currentPrice={item.current_price}
-            priceChangePercentage7d={item.price_change_percentage_7d_in_currency}
-            logoUrl={item.image}
+            currentPrice={item.price_usd}
+            priceChangePercentage24hr={item.percent_change_24h}
             onPress={() => openModal(item)}
           />
         )}
@@ -93,20 +72,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  titleWrapper: {
-    marginTop: 20,
-    paddingHorizontal: 16,
-  },
-  largeTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  divider: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: '#A9ABB1',
-    marginHorizontal: 16,
-    marginTop: 16,
   },
   bottomSheet: {
     shadowColor: "#000",
