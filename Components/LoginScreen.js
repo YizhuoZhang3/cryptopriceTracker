@@ -18,15 +18,6 @@ function LoginScreen({navigation}) {
     navigation.navigate('Home');
   }
 
-  // const storeUser = async () => {
-  //   try {
-  //     await AsyncStorageStatic.setItem(
-  //       userName
-  //     );
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
