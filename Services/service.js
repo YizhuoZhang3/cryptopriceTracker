@@ -1,6 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 
+
 // const formatSparkline = (numbers) => {
 //   const sevenDaysAgo = moment().subtract(7, 'days').unix();
 //   let formattedSparkline = numbers.map((item, index) => {
@@ -33,8 +34,7 @@ export const getMarketData = async () => {
   try {
     const response = await axios.get("https://api.coinlore.net/api/tickers/");
     const data = response.data;
-    console.log(data)
-    const get50data = data.data.slice(0, 50)
+    const get50data = data.data.slice(0, 50);
     return get50data;
   } catch (error) {
     console.log(error.message);

@@ -1,20 +1,24 @@
 import React, {useRef, useMemo, useState, useEffect} from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView  } from 'react-native';
-import {BottomSheetModal,BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import { getMarketData } from '../Services/service';
 import ListItem from './ListItem';
-import Chart from './Chart';
 import ListHeader from './ListHeader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function HomeScreen() {
+function HomeScreen({navigation}) {
   const [data, setData] = useState([]);
   const [selectedCoinData, setSelectedCoinData] = useState(null);
-
   
   // get crypto datda from api
   useEffect(() => {
     const fetchMarketData = async () => {
       const marketData = await getMarketData();
+      
+      if(marketData){
+        AsyncStorage.setItem('somekey', JSON.stringify(marketData))
+        .then(json => console.log('store data in local storage success!'))
+        .catch(error => console.log('error!'));
+      }
       setData(marketData);
     }
     fetchMarketData();
@@ -29,7 +33,6 @@ function HomeScreen() {
   }
 
   return (
-    <BottomSheetModalProvider>
       <SafeAreaView style={styles.container}>
         <FlatList
         keyExtractor={(item) => item.id}
@@ -40,31 +43,12 @@ function HomeScreen() {
             symbol={item.symbol}
             currentPrice={item.price_usd}
             priceChangePercentage24hr={item.percent_change_24h}
-            onPress={() => openModal(item)}
+            onPress={(item) => navigation.navigate('Chart')}
           />
         )}
         ListHeaderComponent={<ListHeader />}
       />
       </SafeAreaView>
-
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={0}
-        snapPoints={snapPoints}
-        style={styles.bottomSheet}
-      >
-        { selectedCoinData ? (
-          <Chart
-            currentPrice={selectedCoinData.current_price}
-            logoUrl={selectedCoinData.image}
-            name={selectedCoinData.name}
-            symbol={selectedCoinData.symbol}
-            priceChangePercentage7d={selectedCoinData.price_change_percentage_7d_in_currency}
-            sparkline={selectedCoinData?.sparkline_in_7d.price}
-          />
-        ) : null}
-      </BottomSheetModal>
-    </BottomSheetModalProvider>
   );
 }
 
