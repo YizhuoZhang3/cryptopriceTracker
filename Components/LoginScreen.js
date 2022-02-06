@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function LoginScreen({navigation}) {
   const [userName, setUserName] = useState('');
@@ -9,8 +10,23 @@ function LoginScreen({navigation}) {
       alert('Please Enter an User Name');
       return;
     }
+
+    if(userName){
+      AsyncStorage.setItem('username', userName);
+      setUserName('');
+    }
     navigation.navigate('Home');
   }
+
+  // const storeUser = async () => {
+  //   try {
+  //     await AsyncStorageStatic.setItem(
+  //       userName
+  //     );
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
