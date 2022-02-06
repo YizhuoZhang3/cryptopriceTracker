@@ -4,10 +4,13 @@ import { getMarketData } from '../Services/service';
 import ListItem from './ListItem';
 import ListHeader from './ListHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SearchBar } from "react-native-elements";
 
 function HomeScreen({navigation}) {
   const [data, setData] = useState([]);
-  const [selectedCoinData, setSelectedCoinData] = useState(null);
+  const [filteredData, setFilteredData] = useState([]);
+  // const [selectedCoinData, setSelectedCoinData] = useState(null);
+  const [search, setSearch] = useState('');
   
   // get crypto datda from api
   useEffect(() => {
@@ -19,24 +22,40 @@ function HomeScreen({navigation}) {
         .then(json => console.log('store data in local storage success!'))
         .catch(error => console.log('error!'));
       }
+      setFilteredData(marketData);
       setData(marketData);
     }
     fetchMarketData();
-  }, [])
+  }, []);
 
-  const bottomSheetModalRef = useRef(null);
-  const snapPoints = useMemo(() => ['50%'], []);
+  const searchFilterFunction = (text) => {
+    if (text) {
+      const newData = data.filter(item => parseFloat(item.percent_change_24h) >= parseFloat(text));
+      setFilteredData(newData);
+      setSearch(text);
+    } else {
+      setFilteredData(data);
+      setSearch(text);
+    }
+  };
 
-  const openModal = (item) => {
-    setSelectedCoinData(item);
-    bottomSheetModalRef.current?.present();
+  const handleSearchCancel = () => {
+
   }
 
   return (
       <SafeAreaView style={styles.container}>
+        <SearchBar
+          placeholder="Type perentage here..."
+          onChangeText={(text) => searchFilterFunction(text)}
+          onCancel={handleSearchCancel}
+          value={search}
+          showCancel
+          lightTheme
+        />
         <FlatList
         keyExtractor={(item) => item.id}
-        data={data}
+        data={filteredData}
         renderItem={({ item }) => (
           <ListItem
             name={item.name}
@@ -46,7 +65,7 @@ function HomeScreen({navigation}) {
             onPress={(item) => navigation.navigate('Chart')}
           />
         )}
-        ListHeaderComponent={<ListHeader />}
+        ListHeaderComponent={<ListHeader/>}
       />
       </SafeAreaView>
   );

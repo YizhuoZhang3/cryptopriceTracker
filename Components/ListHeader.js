@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function ListHeader () {
+function ListHeader ({data}) {
   const [userName, setUserName] = useState('');
   const getUser = async () => {
     try {
@@ -26,7 +26,6 @@ function ListHeader () {
           <Text style={styles.welcomeTitle}>Welcome {userName}!</Text>
           <View style={styles.subTitle}>
             <Text style={styles.largeTitle}>Markets</Text>
-            <Text style={styles.smallTitle}>Filter</Text>
           </View>
         </View>
       <View style={styles.divider} />
