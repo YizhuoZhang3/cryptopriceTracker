@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 function LoginScreen({navigation}) {
-  const [userName, setUserName] = useState('')
+  const [userName, setUserName] = useState('');
+
   const handlePress = () => {
     if (!userName.trim()) {
       alert('Please Enter an User Name');
       return;
     }
-    navigation.navigate('Home')
+    navigation.navigate('Home');
   }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.inputContainer}>
@@ -41,12 +43,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputContainer: {
-    width: '60%'
+    width: '60%',
   },
   input: {
     backgroundColor: 'white',
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 15,
     borderRadius: 10,
     marginTop: 5,
   },
