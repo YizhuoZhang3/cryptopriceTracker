@@ -51,7 +51,7 @@ function HomeScreen({navigation}) {
           onCancel={handleSearchCancel}
           value={search}
           showCancel
-          lightTheme
+          darkTheme
         />
         <FlatList
         keyExtractor={(item) => item.id}
@@ -62,7 +62,7 @@ function HomeScreen({navigation}) {
             symbol={item.symbol}
             currentPrice={item.price_usd}
             priceChangePercentage24hr={item.percent_change_24h}
-            onPress={(item) => navigation.navigate('Chart')}
+            onPress={() => navigation.navigate('Chart', {currency: item})}
           />
         )}
         ListHeaderComponent={<ListHeader/>}
