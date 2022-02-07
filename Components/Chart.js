@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { LineChart, YAxis, Grid } from 'react-native-svg-charts'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { LineChart, YAxis, Grid } from 'react-native-svg-charts';
+import { View, Text, StyleSheet } from 'react-native';
 
 const Chart = ({route})=> {
   const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80]
@@ -13,7 +13,6 @@ const Chart = ({route})=> {
   },[])
 
   console.log('this is selected curr: ', selectedCurrency);
-
   const priceChangeColor = selectedCurrency.percent_change_24h > 0 ? '#34C759' : '#FF3B30';
 
   return (
@@ -28,7 +27,8 @@ const Chart = ({route})=> {
           <Text style={styles.period}>Last 24hrs</Text>
         </View>
       </View>
-      <View style={{ height: 200, flexDirection: 'row' }}>
+
+      <View style={{ height: 500, flexDirection: 'row' }}>
         <YAxis
           data={data}
           contentInset={contentInset}
@@ -45,10 +45,10 @@ const Chart = ({route})=> {
           svg={{ stroke: 'rgb(134, 65, 244)' }}
           contentInset={contentInset}
         >
-            <Grid />
-        </LineChart>
-      </View>
+        <Grid />
+      </LineChart>
     </View>
+  </View>
   )
 }
 const styles = StyleSheet.create({
@@ -79,6 +79,9 @@ const styles = StyleSheet.create({
   period:{
     fontSize: 20,
     color: 'grey'
+  },
+  chartWrapper:{
+    marginTop: -25,
   }
 
 })
