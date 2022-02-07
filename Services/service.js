@@ -1,5 +1,4 @@
 import axios from 'axios';
-import moment from 'moment';
 
 export const getMarketData = async () => {
   try {
@@ -12,13 +11,4 @@ export const getMarketData = async () => {
   }
 }
 
-export const getRealTime = async () => {
-  try {
-    const response = await axios.get("https://api.coinlore.net/api/tickers/");
-    const data = response.data;
-    const time = data.info.time;
-    return time;
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+

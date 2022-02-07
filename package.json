@@ -24,6 +24,7 @@
     "react-native": "0.64.3",
     "react-native-elements": "^3.4.2",
     "react-native-highcharts": "^1.0.2",
+    "react-native-plotly": "^6.0.0",
     "react-native-reanimated": "^2.4.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-svg-charts": "^5.4.0",

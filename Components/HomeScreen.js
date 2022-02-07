@@ -18,7 +18,7 @@ function HomeScreen({navigation}) {
       const marketData = await getMarketData();
       
       if(marketData){
-        AsyncStorage.setItem('somekey', JSON.stringify(marketData))
+        AsyncStorage.setItem('marketData', JSON.stringify(marketData))
         .then(json => console.log('store data in local storage success!'))
         .catch(error => console.log('error!'));
       }
@@ -39,16 +39,12 @@ function HomeScreen({navigation}) {
     }
   };
 
-  const handleSearchCancel = () => {
-
-  }
 
   return (
       <SafeAreaView style={styles.container}>
         <SearchBar
           placeholder="Type perentage here..."
           onChangeText={(text) => searchFilterFunction(text)}
-          onCancel={handleSearchCancel}
           value={search}
           showCancel
           darkTheme
